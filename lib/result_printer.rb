@@ -1,6 +1,6 @@
 # Класс для печати промежуточных и итоговых результатов игры
 class ResultPrinter
-  def initialize
+  def initialize(game)
     # Массив с псевдографикой (7 "картинок")
     @status_image = []
 
@@ -9,9 +9,9 @@ class ResultPrinter
 
     # Цикл, в котором в @status_image записывется содержимое файлов с псевдографикой
     # Индекс элемента в массиве соответствует количеству ошибок польлзователя
-    until counter > 7
+    until counter > game.max_mistakes
       # Записываем ссылку на путь к файлу с псевдографикой в переменную file_name
-      file_name = "#{__dir__}/image/#{counter}.txt"
+      file_name = "#{__dir__}/../image/#{counter}.txt"
 
       # Проверяем существует ли файл
       if File.exist?(file_name)
@@ -30,8 +30,8 @@ class ResultPrinter
   end
 
   # Метод, выводящий на экран изображение виселицы в зависимости от количества ошибок
-  def print_viselitsa(errors)
-    puts @status_image[errors]
+  def print_viselitsa(mistakes)
+    puts @status_image[mistakes]
   end
 
   # Метод, выводящий на экран текущий статус игры
@@ -42,47 +42,42 @@ class ResultPrinter
     puts
     # Выводим на экран угадываемое слово с подчеркиваниями
     puts "Слово: #{get_word_for_print(game.letters, game.good_letters)}"
+
     # Выводим через запятую список неправильных букв, введенных пользователем
     puts "Ошибки: #{game.bad_letters.join(", ")}"
 
     # Вызываем метод print_viselitsa для текущего количества ошибок
-    print_viselitsa(game.errors)
+    print_viselitsa(game.mistakes)
 
     # Если пользователь проиграл, сообщить ему об этом и показать загаданное слово
-    if game.status == -1
-      puts
-      puts "Вы проиграли :("
+    if game.lost?
+      puts "\nВы проиграли :(\n\n"
       puts "Загаданное слово было: " + game.letters.join("")
       puts
     # Если выиграл - поздравить
-    elsif game.status == 1
-      puts
-      puts "Поздравляем, вы выиграли!"
-      puts
+    elsif game.won?
+      puts "\nПоздравляем, вы выиграли!\n\n"
     # Если игра не завершена, сообщить количество оставшихся ошибок
     else
-      puts "У вас осталось ошибок: " + (7 - game.errors).to_s
+      puts "У вас осталось ошибок: #{game.mistakes_left}"
     end
   end
 
   # Метод, выводящий на экран угадываемое слово с подчеркиваниями
   def get_word_for_print(letters, good_letters)
-    result = ""
+    result = ''
 
-    letters.each do |item|
-      # Если буква угадана, открыть ее
-      if good_letters.include?(item)
-        result += item + " "
-      # Если нет - показать вместо буквы подчеркивания
-      else
-        result += "__ "
-      end
+    letters.each do |letter|
+      result += if good_letters.include?(letter)
+                  letter + ' '
+                else
+                  '_ '
+                end
     end
 
     result
   end
 
-  # Метод, очищающий экран
   def cls
     system("clear") || system("cls")
   end
