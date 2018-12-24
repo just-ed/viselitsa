@@ -67,6 +67,10 @@ class Game
     @good_letters.include?(letter) || @bad_letters.include?(letter)
   end
 
+  def is_valid?(letter)
+    ("а".."я").include?(letter)
+  end
+
   def lost?
     @mistakes == MAX_MISTAKES
   end
@@ -108,12 +112,9 @@ class Game
 
   # Метод, запрашивающий у пользователя ввод буквы
   def ask_next_letter
-    # Массив букв русского алфавита
-    valid_letters = "а".."я"
-
     # Запрашивать ввод пользователя, пока он не введет букву из массива valid_letters
     letter = ""
-    until valid_letters.include?(letter)
+    until is_valid?(letter)
       print "\nВведите следующую букву: "
       letter = STDIN.gets.encode("UTF-8").chomp
     end
