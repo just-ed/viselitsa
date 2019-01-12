@@ -72,7 +72,7 @@ class Game
   end
 
   def lost?
-    @mistakes == MAX_MISTAKES
+    @status == :lost
   end
 
   def in_progress?
@@ -106,7 +106,7 @@ class Game
       @mistakes += 1
 
       # Если пользователь ошибся 7 раз - проигрыш
-      @status = :lost if @mistakes == 7
+      @status = :lost if @mistakes >= MAX_MISTAKES
     end
   end
 

@@ -4,9 +4,8 @@ require_relative 'lib/word_reader'
 
 VERSION = 'Игра "Виселица", версия 5. (с) Хороший программист'
 
-word_reader = WordReader.new
 words_file_name = "#{__dir__}/data/words.txt"
-word = word_reader.read_from_file(words_file_name)
+word = WordReader.new.read_from_file(words_file_name)
 
 begin
   game = Game.new(word)

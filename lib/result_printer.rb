@@ -68,11 +68,12 @@ class ResultPrinter
     result = ''
 
     letters.each do |letter|
-      result += if good_letters.include?(letter)
-                  letter + ' '
-                else
-                  '_ '
-                end
+      result +=
+        if good_letters.include?(letter)
+          letter + ' '
+        else
+          '_ '
+        end
     end
 
     result
