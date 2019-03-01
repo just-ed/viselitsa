@@ -1,7 +1,7 @@
 require_relative 'lib/game'
 require_relative 'lib/result_printer'
 require_relative 'lib/word_reader'
-require 'unicode/utils'
+require 'unicode_utils'
 
 VERSION = 'Игра "Виселица", версия 5. (с) Хороший программист'
 
